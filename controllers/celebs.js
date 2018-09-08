@@ -1,45 +1,45 @@
-const User = require('../models/users');
+const Celeb = require('../models/celebs');
 
-exports.postNewUser = (req, res) => {
+exports.postNewCeleb = (req, res) => {
   let {
-    firstName,
-    lastName,
-    email,
-    password,
-    facebook,
-    google,
+    name,
+    pic,
+    dob,
+    height,
+    bio,
+    trivia,
     createdAt,
     modifiedAt
   } = req.body;
 
-  var user = new User({
-    firstName,
-    lastName,
-    email,
-    password,
-    facebook,
-    google,
+  var celeb = new Celeb({
+    name,
+    pic,
+    dob,
+    height,
+    bio,
+    trivia,
     createdAt,
     modifiedAt
   });
-  user.save().then((user) => {
+  celeb.save().then((celeb) => {
     console.log('Added successfully');
-    res.json(user);
+    res.json(celeb);
   })
 };
 
-exports.getAllUsers = (req, res) => {
-  User.find({}, (error, users) => {
+exports.getAllCelebs = (req, res) => {
+  Celeb.find({}, (error, celebs) => {
     if (error) {
       res.json({
         message: "Server error, Please try after some time.",
         status: 500
       });
     }
-    if (users) {
+    if (celebs) {
       res.json({
-        data: users,
-        message: "All users fetched",
+        data: celebs,
+        message: "All celebs fetched",
         status: 200
       });
     } else {
@@ -51,18 +51,18 @@ exports.getAllUsers = (req, res) => {
   });
 };
 
-exports.getUserById = (req, res) => {
-  User.findById(req.params.id, (err, users) => {
+exports.getCelebById = (req, res) => {
+  Celeb.findById(req.params.id, (err, celebs) => {
     if (err) {
       res.json({
         message: "Server error, Please try after some time.",
         status: 500
       });
     }
-    if (users) {
+    if (celebs) {
       res.json({
-        data: users,
-        message: "User data fetched successfully",
+        data: celebs,
+        message: "Celeb data fetched successfully",
         status: 200
       });
     } else {
@@ -74,41 +74,41 @@ exports.getUserById = (req, res) => {
   });
 };
 
-exports.updateUserById = (req, res) => {
+exports.updateCelebById = (req, res) => {
   console.log(req.body);
   const {
-    firstName,
-    lastName,
-    email,
-    password,
-    facebook,
-    google,
+    name,
+    pic,
+    dob,
+    height,
+    bio,
+    trivia,
     createdAt,
     modifiedAt
   } = req.body;
-  User.update({
+  Celeb.update({
     _id: req.params.id
   }, {
-    firstName,
-    lastName,
-    email,
-    password,
-    facebook,
-    google,
+    name,
+    pic,
+    dob,
+    height,
+    bio,
+    trivia,
     createdAt,
     modifiedAt
-  }, {}, (error, user) => {
+  }, {}, (error, celeb) => {
     if (error)
       res.json({
         error: error,
         status: 500
       });
     console.log(error);
-    res.json(user);
+    res.json(celeb);
   });
 };
 
-exports.deleteUserById = (req, res) => {
+exports.deleteCelebById  = (req, res) => {
   User.findOneAndDelete({
     _id: req.params.id
   }, (error, deleteId) => {
