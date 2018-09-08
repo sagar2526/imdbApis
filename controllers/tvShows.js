@@ -1,4 +1,4 @@
-const Tv = require('../models/tv');
+const Tv = require('../models/tvShows');
 
 exports.postNewTv = (req, res) => {
   let{
@@ -132,4 +132,5 @@ exports.deleteTvById = (req, res) => {
     res.json({
       message: "Deleted successfully"
     });
-  });
+  })
+}
