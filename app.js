@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-mongoose.connect('mongodb://adminfor:Sobin123@ds135852.mlab.com:35852/codegurukul');
+mongoose.connect(process.env.MONGODB_URL);
 mongoose.connection.on('error', (error) => console.error(error));
 mongoose.connection.on('open', () => console.log("success in connecting to mongodb"));
 
