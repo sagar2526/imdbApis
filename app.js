@@ -12,7 +12,7 @@ var usersRouter = require('./routes/users');
  */
   const celebController = require('./controllers/celebs');
   const movieController = require('./controllers/movies');
-  const showtimeController = require('./controllers/showtimes');
+  //const showtimeController = require('./controllers/showtimes');
   const tvShowsController = require('./controllers/tvShows');
   const userController = require('./controllers/users');
 
@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-mongoose.connect('mongodb://localhost:27017/imdb');
+mongoose.connect(process.env.MONGODB_URL);
 mongoose.connection.on('error', (error) => console.error(error));
 mongoose.connection.on('open', () => console.log("success in connecting to mongodb"));
 
@@ -57,4 +57,3 @@ app.delete('/api/v1/celebs/:id', celebController.deleteCelebById);
 
 
 module.exports = app;
-app.listen(4040, () => console.log('Express server at 4040'));

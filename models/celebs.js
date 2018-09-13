@@ -2,12 +2,15 @@ const mongoose = require('mongoose');
 
 const celebSchema = new mongoose.Schema({
   name: String,
-  pic: String,
-  dob: String,
-  height: String,
+  pictureUrl: String,
+  dob: Date,
+  height: {
+    value: Number,
+    unit: {type: String, enum: ['cm', 'inch'], default: 'cm'}
+  },
   bio: String,
   trivia: String,
-  createdAt: Date,
+  createdAt: { type: Date, default: Date.now},
   modifiedAt: Date
 });
 
