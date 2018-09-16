@@ -2,16 +2,17 @@ const mongoose = require('mongoose');
 
 const showtimeSchema = new mongoose.Schema({
   theaterName: String,
+  movie: { type: mongoose.Schema.Types.ObjectId, ref: 'Movie' },
   address: {
-    lane: String,
     area: String,
     city: String,
-    pincode: String,
-    phone_no: String,
+    pincode: Number,
+    phone_no: Number,
   },
+  rating: Number,
   time: Array,
-  createdAt: Date,
-  modifiedAt: Date
+  createdAt: { type: Date, default: Date.now},
+  modifiedAt: { type: Date, default: Date.now}
 });
 
 const Showtime = mongoose.model('Showtime', showtimeSchema);
