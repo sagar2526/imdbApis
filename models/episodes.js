@@ -1,22 +1,26 @@
 const mongoose = require('mongoose');
 
-const episodeSchema = new mongoose.Schema ({
-  seriesName: {type: mongoose.Schema.Types.ObjectId, ref: 'Tv'},
+const episodeSchema = new mongoose.Schema({
+  seriesName: {type: String},
   title: String,
   posterUrl: String,
   season: Number,
   description: String,
-  director: { type: mongoose.Schema.Types.ObjectId, ref: 'Celeb' },
-  stars: [{
-    actor: { type: mongoose.Schema.Types.ObjectId, ref: 'Celeb' },
-    characterName: String,
-  }],
-  storyline: { type: mongoose.Schema.Types.ObjectId, ref: 'Tv' },
-  genres: [{
-    type: mongoose.Schema.Types.ObjectId, ref: 'Tv',
-  }],
-  createdAt: { type: Date, default: Date.now},
-  modifiedAt: { type: Date, default: Date.now}
+  director: {type: String},
+  stars: [
+    {
+      actor: {type: String},
+      characterName: String
+    }
+  ],
+  storyline: {type: String},
+  genres: [
+    {
+      type: String
+    }
+  ],
+  createdAt: {type: Date, default: Date.now},
+  modifiedAt: {type: Date, default: Date.now}
 });
 
 const Episode = mongoose.model('Episode', episodeSchema);
