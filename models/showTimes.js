@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const showtimeSchema = new mongoose.Schema({
   theaterName: String,
-  movie: { type: mongoose.Schema.Types.ObjectId, ref: 'Movie' },
+  movie: { type: String },
   address: {
     area: String,
     city: String,
