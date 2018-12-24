@@ -10,8 +10,8 @@ const celebSchema = new mongoose.Schema({
   },
   bio: String,
   trivia: String,
-  createdAt: { type: Date, default: Date.now},
-  modifiedAt: Date
+  createdAt: { type: Date, default: Date.now },
+  modifiedAt: { type: Date, default: Date.now }
 });
 
 const Celeb = mongoose.model('Celeb', celebSchema);
