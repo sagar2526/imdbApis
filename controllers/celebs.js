@@ -1,6 +1,7 @@
 const Celeb = require('../models/celebs');
 
 exports.postNewCeleb = (req, res) => {
+  if(req.body.name && req.body.pic && req.body.dob && req.body.height && req.body.bio && req.body.trivia){
   let {
     name,
     pic,
@@ -23,9 +24,19 @@ exports.postNewCeleb = (req, res) => {
     modifiedAt
   });
   celeb.save().then((celeb) => {
-    console.log('Added successfully');
-    res.json(celeb);
+    
+      res.json({
+        data: celeb,
+        message: 'celeb added successfully',
+        status: 200
+      });
   })
+  } else {
+    res.json({
+      message: 'Incomplete Inputs',
+      status: 404
+    });
+}
 };
 
 exports.getAllCelebs = (req, res) => {
@@ -104,7 +115,11 @@ exports.updateCelebById = (req, res) => {
         status: 500
       });
     console.log(error);
-    res.json(celeb);
+      res.json({
+        data: celeb,
+        message: "Celeb fetched",
+        status: 200
+    });
   });
 };
 
