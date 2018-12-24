@@ -5,18 +5,18 @@ const tvSchema = new mongoose.Schema({
   posterUrl: String,
   trailerUrl: String,
   description: String,
-  director: { type: mongoose.Schema.Types.ObjectId, ref: 'Celeb' },
-  writer: { type: mongoose.Schema.Types.ObjectId, ref: 'Celeb' },
+  director: { type: String },
+  writer: { type: String },
   stars: [{
-    actor: { type: mongoose.Schema.Types.ObjectId, ref: 'Celeb' },
+    actor: { type: String },
     characterName: String,
   }],
   episode : [{
-    season: { type: mongoose.Schema.Types.ObjectId, ref: 'Episode' },
-    episodeurl: { type: mongoose.Schema.Types.ObjectId, ref: 'Episode' },
+    season: { type: Number },
+    episodeurl: { type: String },
   }],
   photourl: [{
-     type: mongoose.Schema.Types.ObjectId, ref: 'Photo'
+     type: String
   }],
   storyline: String,
   keywords: [String],
