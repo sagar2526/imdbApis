@@ -1,6 +1,7 @@
 const Showtime = require('../models/showtimes');
 
 exports.postNewShowtime = (req, res) => {
+  if(req.body.theaterName && req.body.movie && req.body.address && req.body.rating && req.body.time){
   let {
     theaterName,
     movie,
@@ -35,10 +36,16 @@ exports.postNewShowtime = (req, res) => {
       });
     }
   });
+  } else {
+    res.json({
+      message: 'Incomplete Inputs',
+      status: 200
+  });
+}
 };
 
 exports.getAllShowtimes = (req, res) => {
-  Showtime.find({}, (error, shotimes) => {
+  Showtime.find({}, (error, showtimes) => {
     if (error) {
       res.json({
         message: "Server error, Please try after some time.",
@@ -110,7 +117,10 @@ exports.updateShowtimeById = (req, res) => {
         status: 500
       });
     console.log(error);
-    res.json(showtime);
+      res.json({
+        message: "showtime updated successfully",
+        status: 200
+    });
   });
 };
 
@@ -124,7 +134,8 @@ exports.deleteShowtimeById = (req, res) => {
         status: 500
       });
     res.json({
-      message: "Deleted successfully"
+      message: "Deleted successfully",
+      status: 200
     });
   });
 };
