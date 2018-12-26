@@ -1,54 +1,73 @@
 const Episode = require('../models/episodes');
 
 exports.postNewEpisode = (req, res) => {
-  let {
-    seriesName,
-    title,
-    posterUrl,
-    season,
-    description,
-    director,
-    stars,
-    storyline,
-    genres,
-    createdAt,
-    modifiedAt
-  } = req.body;
+  if (
+    req.body.seriesName &&
+    req.body.title &&
+    req.body.posterUrl &&
+    req.body.season &&
+    req.body.description &&
+    req.body.director &&
+    req.body.stars &&
+    req.body.storyline &&
+    req.body.genres
+  ) {
+    let {
+      seriesName,
+      title,
+      posterUrl,
+      season,
+      description,
+      director,
+      stars,
+      storyline,
+      genres,
+      createdAt,
+      modifiedAt
+    } = req.body;
 
-  var episode = new Episode({
-    seriesName,
-    title,
-    posterUrl,
-    season,
-    description,
-    director,
-    stars,
-    storyline,
-    genres,
-    createdAt,
-    modifiedAt
-  });
-  episode.save().then((newEpisode) => {
-    console.log('Added successfully');
+    var episode = new Episode({
+      seriesName,
+      title,
+      posterUrl,
+      season,
+      description,
+      director,
+      stars,
+      storyline,
+      genres,
+      createdAt,
+      modifiedAt
+    });
+    episode.save().then((newEpisode) => {
+      console.log('Added successfully');
+      res.json({
+        message: 'Added ${newEpisode.title} successfully',
+        status: 200
+      });
+    }).catch(function (err) {
+      if (err) {
+        console.log(err);
+        res.json({
+          message: 'Server error',
+          status: 500
+        });
+      }
+    });
+  } else {
     res.json({
-      message: 'Added ${newEpisode.title} successfully',
+      message: 'Incomplete Inputs',
       status: 200
     });
-  }).catch(function(err) {
-    if (err) {
-      console.log(err);
-      res.json({
-        message: 'Server error',
-        status: 500
-      });
-    }
-  });
+  }
 };
 
 exports.getAllEpisodes = (req, res) => {
   var query = Episode.find();
   if (req.query.name) {
-    query.where({ title: req.query.name });
+    query.where({
+      title: req.query.name
+    });
   }
   query.select('name -_id');
   query.limit(req.query.limit || 10);
@@ -129,11 +148,14 @@ exports.updateEpisodeById = (req, res) => {
         status: 500
       });
     console.log(error);
-    res.json(episode);
+      res.json({
+        message: "episode updated successfully",
+        status: 200
+    });
   });
 };
 
-exports.deleteEpisodeById  = (req, res) => {
+exports.deleteEpisodeById = (req, res) => {
   User.findOneAndDelete({
     _id: req.params.id
   }, (error, deleteId) => {
@@ -143,7 +165,8 @@ exports.deleteEpisodeById  = (req, res) => {
         status: 500
       });
     res.json({
-      message: "Deleted successfully"
+      message: "Deleted successfully",
+      status: 200
     });
   });
 };
