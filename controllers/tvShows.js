@@ -1,42 +1,79 @@
 const Tv = require('../models/tvShows');
 
 exports.postNewTv = (req, res) => {
-  let{
-    poster,
-    trailer,
-    description,
-    director,
-    writer,
-    stars,
-    storyline,
-    keywords,
-    genres,
-    createdAt,
-    modifiedAt
-  } = req.body;
+  if (
+    req.body.title &&
+    req.body.posterUrl &&
+    req.body.trailerUrl &&
+    req.body.description &&
+    req.body.director &&
+    req.body.writer &&
+    req.body.stars &&
+    req.body.episode &&
+    req.body.photourl &&
+    req.body.storyline &&
+    req.body.keywords &&
+    req.body.genres
+  ) {
+    let {
+      title,
+      posterUrl,
+      trailerUrl,
+      description,
+      director,
+      writer,
+      stars,
+      episode,
+      photourl,
+      storyline,
+      keywords,
+      genres,
+      createdAt,
+      modifiedAt
+    } = req.body;
 
-  var tv = new Tv({
-    poster,
-    trailer,
-    description,
-    director,
-    writer,
-    stars,
-    storyline,
-    keywords,
-    genres,
-    createdAt,
-    modifiedAt
-  });
-  Tv.save().then((tv) => {
-    console.log('Added successfully');
-    res.json(tv);
-  });
+    var tv = new Tv({
+      title,
+      posterUrl,
+      trailerUrl,
+      description,
+      director,
+      writer,
+      stars,
+      episode,
+      photourl,
+      storyline,
+      keywords,
+      genres,
+      createdAt,
+      modifiedAt
+    });
+    Tv.save().then((tv) => {
+      console.log('Added successfully');
+      res.json({
+        message: "tv show added succefully",
+        ststus: 200
+      });
+    }).catch(function (err) {
+      if (err) {
+        console.log(err)
+        res.json({
+          message: 'Server error',
+          status: 500
+        })
+      }
+    });
+  } else {
+    res.json({
+      message: 'Incomplete Inputs',
+      status: 201
+    });
+  }
 };
 
 exports.getAllTv = (req, res) => {
   Tv.find({}, (error, tv) => {
-    if(error) {
+    if (error) {
       res.json({
         message: "Server error, Please try after some time.",
         status: 500
@@ -83,27 +120,31 @@ exports.getTvById = (req, res) => {
 exports.updateTvById = (req, res) => {
   console.log(req.body);
   const {
-    poster,
-    trailer,
+    title,
+    posterUrl,
+    trailerUrl,
     description,
     director,
     writer,
     stars,
+    episode,
+    photourl,
     storyline,
     keywords,
     genres,
-    createdAt,
-    modifiedAt
   } = req.body;
   Tv.update({
     _id: req.params.id
   }, {
-    poster,
-    trailer,
+    title,
+    posterUrl,
+    trailerUrl,
     description,
     director,
     writer,
     stars,
+    episode,
+    photourl,
     storyline,
     keywords,
     genres,
@@ -116,7 +157,10 @@ exports.updateTvById = (req, res) => {
         status: 500
       });
     console.log(error);
-    res.json(tv);
+      res.json({
+        message: "tv show updated successfully",
+        status: 200
+    });
   });
 };
 
@@ -130,7 +174,8 @@ exports.deleteTvById = (req, res) => {
         status: 500
       });
     res.json({
-      message: "Deleted successfully"
+      message: "Deleted successfully",
+      status: 200
     });
   })
 }
