@@ -1,31 +1,62 @@
 const User = require('../models/users');
 
 exports.postNewUser = (req, res) => {
-  let {
-    firstName,
-    lastName,
-    email,
-    password,
-    facebook,
-    google,
-    createdAt,
-    modifiedAt
-  } = req.body;
+  if (req.body.firstName && req.body.lastName && req.body.email && req.body.password) {
+    User.findOne({
+      email: req.body.email
+    }, (err, user) => {
+      if (err) {
+        return next({
+          message: err,
+          status: 500
+        });
+      }
+      if (user) {
+        return res.json({
+          message: 'User already exists',
+          status: 406
+        });
+      } else {
+        let {
+          firstName,
+          lastName,
+          email,
+          password,
+          facebook,
+          google,
+        } = req.body;
 
-  var user = new User({
-    firstName,
-    lastName,
-    email,
-    password,
-    facebook,
-    google,
-    createdAt,
-    modifiedAt
-  });
-  user.save().then((user) => {
-    console.log('Added successfully');
-    res.json(user);
-  })
+        const user = new User({
+          firstName,
+          lastName,
+          email,
+          password,
+          facebook,
+          google,
+        });
+        user.save().then((user) => {
+          console.log('Added successfully');
+          res.json({
+            message: "user registerd successfully",
+            status: 200
+          });
+        }).catch(function (err) {
+          if (err) {
+            console.log(err)
+            res.json({
+              message: 'Server error',
+              status: 500
+            })
+          }
+        });
+      }
+    });
+  } else {
+    res.json({
+      message: 'Incomplete Inputs',
+      status: 201
+    });
+  }
 };
 
 exports.getAllUsers = (req, res) => {
@@ -82,9 +113,7 @@ exports.updateUserById = (req, res) => {
     email,
     password,
     facebook,
-    google,
-    createdAt,
-    modifiedAt
+    google
   } = req.body;
   User.update({
     _id: req.params.id
@@ -94,9 +123,7 @@ exports.updateUserById = (req, res) => {
     email,
     password,
     facebook,
-    google,
-    createdAt,
-    modifiedAt
+    google
   }, {}, (error, user) => {
     if (error)
       res.json({
