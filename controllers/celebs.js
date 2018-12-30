@@ -1,10 +1,10 @@
 const Celeb = require('../models/celebs');
 
 exports.postNewCeleb = (req, res) => {
-  if(req.body.name && req.body.pic && req.body.dob && req.body.height && req.body.bio && req.body.trivia){
+  if(req.body.name && req.body.pictureUrl && req.body.dob && req.body.height && req.body.bio && req.body.trivia){
   let {
     name,
-    pic,
+    pictureUrl,
     dob,
     height,
     bio,
@@ -15,7 +15,7 @@ exports.postNewCeleb = (req, res) => {
 
   var celeb = new Celeb({
     name,
-    pic,
+    pictureUrl,
     dob,
     height,
     bio,
@@ -89,7 +89,7 @@ exports.updateCelebById = (req, res) => {
   console.log(req.body);
   const {
     name,
-    pic,
+    pictureUrl,
     dob,
     height,
     bio,
@@ -101,7 +101,7 @@ exports.updateCelebById = (req, res) => {
     _id: req.params.id
   }, {
     name,
-    pic,
+    pictureUrl,
     dob,
     height,
     bio,
@@ -117,14 +117,14 @@ exports.updateCelebById = (req, res) => {
     console.log(error);
       res.json({
         data: celeb,
-        message: "Celeb fetched",
+        message: "celeb updated successfully",
         status: 200
     });
   });
 };
 
 exports.deleteCelebById  = (req, res) => {
-  User.findOneAndDelete({
+  Celeb.findOneAndDelete({
     _id: req.params.id
   }, (error, deleteId) => {
     if (error)
@@ -133,7 +133,8 @@ exports.deleteCelebById  = (req, res) => {
         status: 500
       });
     res.json({
-      message: "Deleted successfully"
+      message: "Deleted successfully",
+      status: 200
     });
   });
 };
