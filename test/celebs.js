@@ -151,7 +151,6 @@ describe('Celebs', () => {
                         res.body.should.have.property('status').eql(200);
                         done();
                     });
-            });
-        });
+            });        });
     });
 });
